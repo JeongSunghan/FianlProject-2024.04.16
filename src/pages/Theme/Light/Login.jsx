@@ -2,7 +2,7 @@ import { Card } from "@mui/material";
 import React from "react";
 import '../../../CSS/login,register.css';
 
-export default function Login() {
+export default function LoginLight() {
     // 인풋 스타일 코드
     const commonInputStyle = {
         textAlign: 'center',
