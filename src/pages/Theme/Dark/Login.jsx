@@ -3,18 +3,6 @@ import React from "react";
 import '../../../CSS/login,register.css';
 
 export default function Login() {
-    // 인풋 스타일 코드
-    const commonInputStyle = {
-        textAlign: 'center',
-        width: '300px',
-        height: '35px',
-        fontsize: '15px',
-        border: '0',
-        borderRadius: '15px',
-        outline: 'none',
-        marginBottom: '15px', // 모든 입력 필드에 하단 여백을 일관되게 적용
-    };
-
     return (
         // 배경
         <div style={{
@@ -45,22 +33,19 @@ export default function Login() {
 
                     {/* 로고 */}
                     <img src="../img/flownaryLoginLogo.png"
-                        style={{ maxWidth: '35%', }}
-                        />
+                        style={{ maxWidth: '35%', }}/>
                     <br />
 
                     <input id="id-input" placeholder="닉네임 혹은 이메일"
-                        className="commonInputStyle"
-                        style={commonInputStyle}>
+                        className="commonInputStyle">
                     </input>
-
                     <br />
 
                     <input id='pwd' type="password" placeholder="비밀번호"
-                        className="commonInputStyle"
-                        style={commonInputStyle}>
-                    </input>
+                        className="commonInputStyle">
+                    </input>                    
                     <br />
+
                     <button className="fill2">로그인</button>
                     <p style={{ color: '#ffffff' }}>혹시 계정이 없으신가요?</p>
                     <button className="fill2">가입하기</button>

@@ -1,20 +1,26 @@
 import { Card } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import '../../../CSS/login,register.css';
 
 export default function Register() {
+    // 테마 상태 관리
+    const [theme, setTheme] = useState('light'); // 'light' 또는 'dark'
+    const changeDivTheme = {
+        background: theme === 'light' ? 'url(/img/flowLightPurple.jpg)' : 'url(/img/flowNight.png)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        backgroundSize: 'cover', // 이미지를 커버하도록 설정
+        backgroundPosition: 'center', // 이미지를 가운데 정렬
+    };
+
+    const toggleTheme = () => {
+        setTheme(theme === 'light' ? 'dark' : 'light');
+    };
+
     return (
-        <div
-            style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: '100vh',
-                background: 'url(/img/flowNight.png)', // 이미지 경로 지정
-                backgroundSize: 'cover', // 이미지를 커버하도록 설정
-                backgroundPosition: 'center', // 이미지를 가운데 정렬    
-            }}
-        >
+        <div className="changeDivTheme" style={changeDivTheme}>
             <div>
                 <Card id='cardMain'
                     style={{
@@ -29,6 +35,9 @@ export default function Register() {
                     }}
                 >
                     <div id='login-box' style={{ padding: '35px', }}>
+                        <div>
+                            <button onClick={toggleTheme}>테마 변경</button>
+                        </div>
 
                         {/* 로고 */}
                         <img src="../img/flownaryLoginLogo.png" style={{ maxWidth: '30%', }} />
@@ -56,6 +65,7 @@ export default function Register() {
 
                         <button className="fill2">GOOGLE <br />로그인</button>
                         <button className="fill2">FlowNary <br />로그인</button>
+
                     </div>
                 </Card>
             </div>
