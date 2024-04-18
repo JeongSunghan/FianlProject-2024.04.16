@@ -1,6 +1,6 @@
 import { Avatar, Box, Button, Chip, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import ImageIcon from '@mui/icons-material/Image';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import RecommendList from '../../../components/RecommendList'
