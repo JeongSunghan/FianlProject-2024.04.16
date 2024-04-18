@@ -4,14 +4,11 @@ import AppBar from '@mui/material/AppBar';
 import { Avatar, Button, Stack, TextField, Toolbar } from "@mui/material";
 import '../../../CSS/message.css';
 import EastIcon from '@mui/icons-material/East';
-import SnsBar from '../../../components/SnsBar';
 
 export default function Message() {
   
     return (
         <div style={{position: 'absolute', height: '100%', width: '100%', minWidth: '500px', minHeight: '400px'}}>
-            <>
-            <SnsBar />
             <Box 
             sx={{margin: '20px', border: '2px solid grey', padding: '20px', minHeight: '400px', height: '100%'}}>
                 <Stack sx={{backgroundColor: "rgb(120, 120, 120)",
@@ -41,7 +38,6 @@ export default function Message() {
                     </Toolbar>
                 </AppBar>
             </Box>
-            </>
         </div>
     )
 }

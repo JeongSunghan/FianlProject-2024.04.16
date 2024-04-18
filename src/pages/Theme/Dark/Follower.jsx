@@ -3,14 +3,11 @@ import React, { useState } from "react";
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import SnsBar from '../../../components/SnsBar';
 
 export default function Follower() {
     const [followers, setFollowers] = useState(1);
 
     return (
-        <>
-        <SnsBar />
         <Stack sx={{padding: '20px'}} justifyContent="center">
             <Container sx={{width: '500px', border: '1px solid black', borderRadius: '20px', minHeight: '300px'}}>
                 <Stack>
@@ -86,6 +83,5 @@ export default function Follower() {
                 </Stack>
             </Container>
         </Stack>
-        </>
     )
 }

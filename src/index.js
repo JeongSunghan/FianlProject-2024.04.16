@@ -6,10 +6,13 @@ import App from './App';
 import Home from './pages/Theme/Dark/Home';
 import Login from './pages/Theme/Dark/Login';
 import Register from './pages/Theme/Dark/register';
-import LoginLight from './pages/Theme/Light/Login';
-import RegisterLight from './pages/Theme/Light/register';   //에러 신경쓰지말것
-import Message from './pages/Theme/Dark/Message';
+// import LoginLight from './pages/Theme/Light/Login';
+// import RegisterLight from './pages/Theme/Light/register';  
 import Follower from './pages/Theme/Dark/Follower';
+import Message from './pages/Theme/Dark/Message';
+import Setting from './pages/Theme/Dark/Setting';
+import Search from './pages/Theme/Dark/Search';
+import Mypage from './pages/Theme/Dark/Mypage';
 
 
 //라우터 주석 물어보기
@@ -20,12 +23,13 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: 'Home', element: <Home /> },
-      { path: 'register', element: <Register /> },
       { path: 'login', element: <Login /> },
-      { path: 'login2', element: <LoginLight /> },
-      { path: 'register2', element: <RegisterLight />},
+      { path: 'register', element: <Register /> },      
       { path: 'message', element: <Message />},
       { path: 'follow', element: <Follower />},
+      { path: 'setting', element: <Setting />},
+      { path: 'search', element: <Search />},
+      { path: 'mypage', element: <Mypage />}
     ]    
   }
 ]);
