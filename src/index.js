@@ -3,34 +3,34 @@ import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import App from './App';
-import Home from './pages/Theme/Dark/Home';
-import Login from './pages/Theme/Dark/Login';
-import Register from './pages/Theme/Dark/register';
-// import LoginLight from './pages/Theme/Light/Login';
-// import RegisterLight from './pages/Theme/Light/register';  
-import Follower from './pages/Theme/Dark/Follower';
-import Message from './pages/Theme/Dark/Message';
-import Setting from './pages/Theme/Dark/Setting';
-import Search from './pages/Theme/Dark/Search';
-import Mypage from './pages/Theme/Dark/Mypage';
+import NotFound from './pages/NotFound';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Message from './pages/Message';
+import Follower from './pages/Follower';
+import Mypage from './pages/Mypage';
+import Profile from './pages/Profile';
+import Setting from './pages/Setting';
+import Search from './pages/Search';
 
-
-//라우터 주석 물어보기
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'Home', element: <Home /> },
+      { path: 'home', element: <Home /> },
       { path: 'login', element: <Login /> },
-      { path: 'register', element: <Register /> },      
-      { path: 'message', element: <Message />},
-      { path: 'follow', element: <Follower />},
-      { path: 'setting', element: <Setting />},
-      { path: 'search', element: <Search />},
-      { path: 'mypage', element: <Mypage />}
-    ]    
+      { path: 'register', element: <Register /> },
+      { path: 'message', element: <Message /> },
+      { path: 'follower', element: <Follower /> },
+      { path: 'mypage', element: <Mypage /> },
+      { path: 'profile', element: <Profile /> },
+      { path: 'setting', element: <Setting /> },
+      { path: 'search', element: <Search /> },
+    ]
   }
 ]);
 
