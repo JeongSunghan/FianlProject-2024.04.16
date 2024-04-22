@@ -13,7 +13,7 @@ import Badge from '@mui/material/Badge';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 
-import '../CSS/notice.css';
+import '../css/notice.css';
 
 export default function AlertModal() {
   const [open, setOpen] = React.useState(false);
@@ -22,7 +22,9 @@ export default function AlertModal() {
   return (
     <div>
       <button onClick={handleOpen} className='asideStyle'>
-        <NotificationsNoneIcon style={{ marginRight: '2' }} />
+        <Badge badgeContent={4} color="primary" sx={{ marginRight: '28px'}}>
+          <NotificationsNoneIcon sx={{ marginRight: '4px'}}/>
+        </Badge>
         알림
       </button>
       <Modal
@@ -34,12 +36,12 @@ export default function AlertModal() {
         <Box className='styleBox'>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ margin: 3 }}>
             알림 목록
-            <Badge badgeContent={4} color="primary" sx={{marginLeft: 5}}>
-              <NotificationsActiveIcon color="action" />
+            <Badge badgeContent={4} color="primary" sx={{ marginLeft: 5, marginRight: 10 }}>
+              <NotificationsActiveIcon color="action" sx={{ marginRight: '8px'}}/>
             </Badge>
           </Typography>
           <hr />
-          <List sx={{ width: '100%', Width: 500}}>
+          <List sx={{ width: '100%', Width: 500 }}>
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
                 <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

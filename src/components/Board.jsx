@@ -19,6 +19,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ClearIcon from '@mui/icons-material/Clear';
+
 import InputEmoji from 'react-input-emoji'
 import styled from 'styled-components'
 
@@ -115,19 +116,8 @@ export default function Board() {
                     image="/img/sea.avif"
                     alt="Paella dish"
                   />
-                  <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '62%' }}>
-                    <Typography variant="body2" color="text.secondary">
-                      This impressive paella is a perfect party dish and a fun meal to cook
-                      together with your guests. Add 1 cup of frozen peas along with the mussels,
-                      if you like.
-                      This impressive paella is a perfect party dish and a fun meal to cook
-                      together with your guests. Add 1 cup of frozen peas along with the mussels,
-                      if you like.
-                      This impressive paella is a perfect party dish and a fun meal to cook
-                      together with your guests. Add 1 cup of frozen peas along with the mussels,
-                      if you like.
-                    </Typography>
-                    <Stack direction="row" spacing={1}>
+                  <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '62%', overflowY: 'auto' }}>
+                    <Stack direction="row" spacing={1} padding={'10px 0 25px 0'}>
                       <Button sx={{ padding: 0, width: 0 }}>
                         <FavoriteIcon />
                       </Button>
@@ -138,6 +128,30 @@ export default function Board() {
                         <BookmarkIcon />
                       </Button>
                     </Stack>
+                    <Stack direction="row" spacing={1}>
+                    <Typography variant="body2" color="text.secondary" >
+                      This impressive paella is a perfect party dish and a fun meal to cook
+                      together with your guests. Add 1 cup of frozen peas along with the mussels,
+                      if you like.
+                      This impressive paella is a perfect party dish and a fun meal to cook
+
+                       cook
+
+                      if you like.
+                      This impressive paella is a perfect party dish and a fun meal to cook
+                      together with your guests. Add 1 cup of frozen peas along with the mussels,
+                      if you like.
+                      
+                    </Typography>
+                    </Stack>
+                    <Stack direction="row" spacing={1}></Stack>
+                    <Stack direction="row" spacing={1}></Stack>
+                    <Stack direction="row" spacing={1}></Stack>
+                    <Stack direction="row" spacing={1}></Stack>
+                    <Stack direction="row" spacing={1}></Stack>
+                    <Stack direction="row" spacing={1}></Stack>
+                    <Stack direction="row" spacing={1}></Stack>
+
                   </CardContent>
                 </Card>
               </Stack>
@@ -207,14 +221,15 @@ export default function Board() {
                   </FlexContainer>
                 </div>
               </Stack>
-              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 3 }} ><ClearIcon onClick={handleClose} sx={{ cursor: 'pointer' }} /></div>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', paddingBottom: 3 }} >
+                <ClearIcon onClick={handleClose} sx={{ cursor: 'pointer', fontSize: '26px', backgroundColor:'rgb(162, 152, 182)',borderRadius:'100%',margin:'3px' }} />
+              </div>
             </Stack>
           </Box>
         </Modal>
-        <Button>
+        <Button >
           <ShareIcon />
         </Button>
-
         <Button>
           <BookmarkIcon />
         </Button>

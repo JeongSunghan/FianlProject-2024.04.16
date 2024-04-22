@@ -3,10 +3,10 @@ import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-// import zIndex from '@mui/material/styles/zIndex';
+import Grid from '@mui/material/Grid';
+import { Button } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -35,48 +35,52 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
-  width: '100%',
+  width: '120%',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     [theme.breakpoints.up('sm')]: {
-      width: '300px',
+      width: '400px',
       '&:focus': {
-        width: '300px',
+        width: '450px',
       },
     },
   },
 }));
 
-export default function Sns() {
-
+export default function SnsBar() {
+  const logoImage = '/img/LightLogo.png';
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow:'none'}}>
-        <Toolbar>
-          <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ display: 'flex', alignItems: 'center', marginRight:'290px'}}
-          >
-            flownary
-          </Typography>
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          {/* 여기에 프로필 이미지와 닉네임 */}
-          <button style={{marginLeft:'320px'}}>프로필 사진 / 닉네임</button>
+      <AppBar position="static" sx={{ background: 'linear-gradient(to right, #7B68EE, rgb(28, 0, 53))', boxShadow: 'none' }}>
+        <Toolbar sx={{ padding: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={2} sx={{ placeItems: 'center', display: 'grid' }}>
+                <img src={logoImage} style={{ maxWidth: '70%', display: 'flex', alignItems: 'center'  }} />
+            </Grid>
+            <Grid item xs={1}>
+            </Grid>
+            <Grid item xs={6} sx={{ placeItems: 'center', display: 'grid' }}>
+              <Search sx={{borderRadius:50}}>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+            </Grid>
+            <Grid item xs={1}>
+            </Grid>
+            <Grid item xs={1} sx={{ placeItems: 'center', display: 'grid' }}>
+              <Button style={{ color: 'white', opacity: 0.7 }}>로그아웃</Button>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
-    </Box>
+    </Box >
   );
 }
