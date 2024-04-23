@@ -1,6 +1,6 @@
 .MainProfile {
   border: 1px solid rgb(100, 78, 193);
-  width: 75%;
+  width: 100%;
   display: flex;
   flex-direction: column;  
 }
@@ -21,13 +21,7 @@
   margin-right: 10% !important;
   color: white !important;
   background: rgb(100, 78, 193) !important;
-  border: 1px solid rgb(100, 78, 193) !important;  
-  width: 20%; /* 초기 너비 */
-  transition: width 0.3s ease !important; /* 너비 변경을 1.25초 동안 자연스럽게 적용 */
-}
-
-.profile-edit-button:hover {
-  width: 25%;  
+  border: 1px solid rgb(100, 78, 193) !important;
 }
 
 .nickname {

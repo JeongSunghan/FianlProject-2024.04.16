@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Card } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Card } from "@mui/material";
+
 import '../css/theme.css'; // CSS 임포트
 
 export default function Login() {
@@ -26,9 +27,9 @@ export default function Login() {
             <Card id='cardMain' className="cardMain">
                 <div id='login-box' className="loginBox">
                     <div className={`welcome-message`}>
-                        <img src={HelloLogo} style={{ maxWidth: '10%' }} />
+                        <img src={HelloLogo} alt='Hello' style={{ maxWidth: '10%' }} />
                     </div>
-                    <img src={logoImage} style={{ maxWidth: '20%' }} />
+                    <img src={logoImage} alt='LOGO' style={{ maxWidth: '20%' }} />
 
                     <br />
                     <input id="id" placeholder="닉네임 혹은 이메일" className="commonInputStyle" />
@@ -36,8 +37,6 @@ export default function Login() {
                     <input id='pwd' type="password" placeholder="비밀번호" className="commonInputStyle" />
                     <br />
                     <button className="fill">로그인</button>
-
-                    <hr style={{ border: '2px solid rgba(255, 255, 255, 0.4)' }} />
                     <p style={{ color: theme === 'light' ? '#dca3e7' : '#ffffff' }}>혹시 계정이 없으신가요?</p>
                     <div>
                         <br />
