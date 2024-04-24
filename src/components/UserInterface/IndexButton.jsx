@@ -17,6 +17,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ProfileMenu from './ProfileMenu';
 
 export default function IndexButton() {
+  // eslint-disable-next-line
   const [data, setData] = useState([{ x: '2024-01-01', y: '1' }, { x: '2024-01-02', y: '2' }, { x: '2024-01-03', y: '3' }]);
 
   const options = {
@@ -86,9 +87,9 @@ export default function IndexButton() {
       <br /><br /><br />
       {showStatistics && (
         <Grid container>
-          <Grid item xs={2}>
-          </Grid>
-          <Grid item xs={8}>
+            <Grid item xs={0} lg={2}>
+            </Grid>
+            <Grid item xs={12} lg={8}>
             <Stack>
               {data.length > 0 && <Line options={options} data={datas} />}
             </Stack>
@@ -148,8 +149,8 @@ export default function IndexButton() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={2}>
-          </Grid>
+          <Grid item xs={0} lg={2}>
+            </Grid>
         </Grid>
       )}
       {/* 책갈피 Stack */}
