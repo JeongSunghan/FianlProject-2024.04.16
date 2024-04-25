@@ -26,33 +26,31 @@ export default function Login() {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     }
 
-    const handleSubmit = async e => {        
+    const handleSubmit = async e => {
         e.preventDefault();
-    
-        try {            
+
+        try {
             // 이메일이 빈칸인 경우
-            if (!userInfo.email) {
-                alert("이메일을 입력해주세요.");
+            if (!userInfo.email || !userInfo.password) {
+                alert("이메일과 비밀번호를 입력해주세요.");
                 return;
             }
-    
+
             // 사용자가 존재하지 않는 경우
             // Firebase Authentication을 통해 사용자를 인증합니다.
             const user = await signInWithEmailAndPassword(auth, userInfo.email, userInfo.password);
-            
+
             // 사용자가 존재하는 경우
             if (user) {
                 login(userInfo);
                 navigate('/');
-            } else {
-                alert("입력하신 이메일이나 비밀번호가 올바르지 않습니다.");
             }
         } catch (error) {
             alert("이메일 또는 비밀번호가 잘못되었습니다.");
             console.error(error);
         }
     }
-    
+
 
     return (
         <div className={`background ${theme}`} style={{
