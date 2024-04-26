@@ -31,3 +31,19 @@
     flex-direction: column;
     justify-content: space-between;
 }
+
+.modal {
+    position: 'absolute';
+    top: '50%';
+    left: '50%';
+    transform: 'translate(-50%, -50%)';
+    width: '65vw';
+    background-color: 'background.paper';
+    box-shadow: '24';
+    padding: '16px';
+    overflow-y: 'auto';
+    max-height: '90vh';
+  }
+
+
+  

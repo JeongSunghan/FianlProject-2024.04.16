@@ -1,19 +1,12 @@
-import { Card, Stack, TextField, Button, Grid, Modal } from "@mui/material";
 import React, { useState } from "react";
-import '../../css/posting.css';
-
-// 아코디언
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-
-// 아이콘
-import CreateIcon from '@mui/icons-material/Create';
-
-// 스위치
-import { styled } from '@mui/material/styles';
-import Switch from '@mui/material/Switch';
-import Typography from '@mui/material/Typography';
+import {
+  Card, Stack, TextField, Button, Grid, Modal, Box,
+  Accordion, AccordionSummary, AccordionDetails, Typography,
+  Switch // 스위치가 여기에 포함됩니다
+} from "@mui/material";
+import { styled } from '@mui/material/styles'; // 스타일 관련 함수
+import CreateIcon from '@mui/icons-material/Create'; // 아이콘
+import '../../css/posting.css'; // 외부 CSS 스타일
 
 // 스위치 스타일링
 const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -58,6 +51,20 @@ const AntSwitch = styled(Switch)(({ theme }) => ({
     },
 }));
 
+// Modal스타일
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '65vw',
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    overflowY: 'auto',
+    maxHeight: '90vh',
+};
+
 export default function Posting() {
     // 창열고 닫기
     const [open, setOpen] = React.useState(false);
@@ -73,28 +80,32 @@ export default function Posting() {
     };
 
     // 이미지 파일 불러오기
-    const [image, setImage] = useState(null);  // 이미지 파일 상태
-    const [previewUrl, setPreviewUrl] = useState(''); // 이미지 미리보기 URL 상태
+    const [images, setImages] = useState([]);
+    const [previewUrls, setPreviewUrls] = useState([]);
 
     // 파일이 선택되었을 때 호출되는 함수
+    // 파일이 선택되었을 때 호출되는 함수
     const handleFileChange = (event) => {
-        const file = event.target.files[0]; // 선택된 첫 번째 파일
-        if (file && file.type.substr(0, 5) === "image") { // 파일 타입이 이미지인지 확인
-            setImage(file); // 이미지 상태 업데이트
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setPreviewUrl(reader.result); // 미리보기 URL 업데이트
-            };
-            reader.readAsDataURL(file); // 파일을 Data URL 형태로 읽기
-        } else {
-            setImage(null);
-            setPreviewUrl('');
+        // 이미지가 5개를 초과하지 않도록 확인
+        if (event.target.files.length + images.length > 5) {
+            alert('최대 5개의 이미지만 업로드할 수 있습니다.');
+            return;
         }
+        const selectedFiles = Array.from(event.target.files);
+        setImages(images.concat(selectedFiles)); // 기존 이미지 배열에 추가
+        const newPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+        setPreviewUrls(previewUrls.concat(newPreviewUrls)); // 미리보기 URL 배열에 추가
     };
 
+    // 이미지 삭제 핸들러
+    const handleRemoveImage = (index) => {
+        setImages(images.filter((_, i) => i !== index)); // 이미지 배열에서 삭제
+        setPreviewUrls(previewUrls.filter((_, i) => i !== index)); // 미리보기 URL 배열에서 삭제
+    };
 
     return (
         <>
+            {/* 기존의 버튼 및 아이콘 */}
             <button className='asideStyle' onClick={handleOpen}>
                 <Grid container>
                     <Grid item xs={12} lg={6} sx={{ display: { xs: 'flex', lg: 'flex' }, pl: 3 }}>
@@ -105,100 +116,101 @@ export default function Posting() {
                     </Grid>
                 </Grid>
             </button>
+
+            {/* 글쓰기 모달 */}
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
-                <div className="main-container">
-                    <Card className="main-card">
-                        <Stack direction="row">
-                            <Grid container>
-                                <Grid item xs={4} >
-                                    <Button color="primary" style={{ maxWidth: '20%', marginRight: '80%' }} onClick={handleClose}>창 닫기</Button>
-                                </Grid>
-                                <Grid item xs={4}
-                                    sx={{ display: 'grid', justifyContent: 'center', alignItems: 'center' }}>
-                                    <span style={{ textAlign: 'center', fontWeight: 'bold' }}>새 게시물 만들기</span>
-                                </Grid>
-                                <Grid item xs={4}>
-                                    <Button color="primary" style={{ maxWidth: '20%', marginLeft: '80%' }}>작성</Button>
-                                </Grid>
-                            </Grid>
-                        </Stack>
-                        <hr style={{ opacity: '0.5' }} />
-                        <Stack
-                            direction={{ xs: 'column', sm: 'row' }}
-                            sx={{ width: '100%' }} >
+                <Box sx={modalStyle}>
+                    {/* 모달의 상단에 있는 헤더 부분 */}
+                    <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
+                        <Button color="primary" onClick={handleClose}>창 닫기</Button>
+                        <Typography variant="h6" component="h2" fontWeight="bold">새 게시물 만들기</Typography>
+                        <Button color="primary">작성</Button>
+                    </Stack>
 
-                            {/* 사진 업로드 */}
-                            <Card sx={{ border: '1px solid black', margin: '10px', padding: '20px' }}>
+                    {/* 구분선 */}
+                    <hr style={{ opacity: '0.5' }} />
+
+                    {/* 이미지 업로드 및 미리보기 */}
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Button variant="outlined" component="label">
+                                이미지 추가하기
                                 <input
                                     type="file"
+                                    multiple
+                                    hidden
+                                    accept="image/*"
                                     onChange={handleFileChange}
-                                    accept="image/*"  // 이미지 파일만 선택 가능하도록 설정
                                 />
-                                {previewUrl && (
-                                    <img src={previewUrl} alt="Preview" style={{ width: '150px', marginTop: '20px' }} />
-                                )}
-                            </Card>
+                            </Button>
+                        </Grid>
 
-                            <Stack
-                                className="posting-stack"
-                                sx={{
-                                    flex: { sm: 1 },
-                                    width: { xs: '100%', sm: '50%' },
-                                    padding: 2,
-                                }}
-                            >
+                        {/* 이미지 미리보기 */}
+                        {previewUrls.map((url, index) => (
+                            <Grid item key={index} xs={4} sm={2}>
+                                <Card>
+                                    <img src={url} alt={`Preview ${index}`} style={{ width: '15.5vh', height: '15vh', objectFit: 'cover' }} />
+                                    <Button style={{ justifyContent: 'center' }}
+                                        onClick={() => handleRemoveImage(index)}>제거</Button>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
 
-                                {/* 게시글 작성 */}
-                                <TextField
-                                    id="outlined-multiline-static"
-                                    label="문구를 입력하세요..."
-                                    multiline
-                                    rows={7}
-                                    sx={{ width: '100%' }}
-                                />
+                    {/* 게시글 작성 부분 */}
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            sx={{ marginTop: '0.5em' }}
+                            placeholder="문구를 입력하세요..."
+                            id="outlined-multiline-static"
+                            multiline
+                            rows={6}
+                            fullWidth
+                            variant="outlined"
+                        />
+                        <Accordion>
+                            <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
+                                <Typography>이모티콘 선택</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography>
+                                    이모지를 선택해
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                    </Grid>
 
-                                <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
-                                    <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                                        <Typography>이모티콘 선택</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <Typography>
 
-                                        </Typography>
-                                    </AccordionDetails>
-                                </Accordion>
-                                <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-                                    <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-                                        <Typography>위치 추가</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <Typography>
+                    {/* 위치 */}
+                    <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+                            <Typography>위치 추가</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                카카오 맵 API 지도 생성
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
 
-                                        </Typography>
-                                    </AccordionDetails>
-                                </Accordion>
-                                <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-                                    <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-                                        <Typography>게시글 공개 혹은 비공개 </Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails sx={{ display: 'flex' }}>
-                                        <Typography sx={{ marginRight: '1em' }}>비공개</Typography>
-                                        <AntSwitch sx={{ marginTop: '0.25em' }} defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
-                                        <Typography sx={{ marginLeft: '1em' }}>공개</Typography>
-                                    </AccordionDetails>
-                                </Accordion>
-
-                            </Stack>
-                        </Stack>
-                    </Card>
-                </div>
-
-            </Modal>
+                    {/* 게시물 공개 비공개 */}
+                    <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+                            <Typography>게시글 공개 혹은 비공개 </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ display: 'flex' }}>
+                            <Typography sx={{ marginRight: '1em' }}>비공개</Typography>
+                            <AntSwitch sx={{ marginTop: '0.25em' }} defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
+                            <Typography sx={{ marginLeft: '1em' }}>공개</Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                </Box>
+            </Modal >
         </>
     );
 }

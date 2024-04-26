@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { Card } from "@mui/material";
 import { login } from "../api/firebase";
 import '../css/theme.css'; // CSS 임포트
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { GoogleAuthProvider, getAuth, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import Swal from "sweetalert2";
 
 export default function Login() {
     const [theme, setTheme] = useState('light'); // 초기 테마를 'light'로 설정
@@ -26,27 +27,82 @@ export default function Login() {
         setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
     }
 
+    // 구글로 로그인
+    const loginWithGoogle = async () => {
+        try {
+            const auth = getAuth();
+            const provider = new GoogleAuthProvider();
+            await signInWithPopup(auth, provider);
+            Swal.fire({
+                icon: 'success',
+                title: "구글 로그인에 성공했습니다.",
+                showClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                  `
+                },
+                hideClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                  `
+                }
+            });
+            console.log("구글 로그인 성공!");
+            navigate('/');
+        } catch (error) {
+            console.error("구글 로그인 오류:", error);
+        }
+    };
+
     const handleSubmit = async e => {
         e.preventDefault();
 
         try {
             // 이메일이 빈칸인 경우
-            if (!userInfo.email || !userInfo.password) {
-                alert("이메일과 비밀번호를 입력해주세요.");
+            if (!userInfo.email) {
+                Swal.fire({
+                    icon:"warning",                    
+                    text:"이메일을 입력해주세요.",
+                });
                 return;
             }
 
-            // 사용자가 존재하지 않는 경우
+            // 비밀번호가 빈칸인 경우
+            if (!userInfo.password) {
+                Swal.fire({
+                    icon:"warning",                    
+                    text:"비밀번호를 입력해주세요.",
+                });
+                return;
+            }
+
             // Firebase Authentication을 통해 사용자를 인증합니다.
             const user = await signInWithEmailAndPassword(auth, userInfo.email, userInfo.password);
 
             // 사용자가 존재하는 경우
             if (user) {
                 login(userInfo);
+                Swal.fire({
+                    position: "center",
+                    icon: "success",
+                    title: "로그인에 성공하였습니다!",
+                    showConfirmButton: false,
+                    timer: 1200
+                });
                 navigate('/');
             }
         } catch (error) {
-            alert("이메일 또는 비밀번호가 잘못되었습니다.");
+            // Firebase 오류 처리를 좀 더 일반적인 메시지로 통합
+            Swal.fire({
+                icon: "error",
+                title: "앗! 잠시만요",
+                text: "이메일 혹은 비밀번호가 맞지 않아요.",
+                footer: '<a href="register">혹시 계정이 없으신가요?</a>'
+            });
             console.error(error);
         }
     }
@@ -73,6 +129,14 @@ export default function Login() {
                         onChange={handleChange} />
                     <br />
                     <button className="fill" onClick={handleSubmit}>로그인</button>
+                    <p style={{
+                        marginTop: '3px', marginBottom: '10px',
+                        color: theme === 'light' ? '#dca3e7' : '#ffffff'
+                    }}>또는</p>
+                    <Link to="#" onClick={loginWithGoogle} className={`custom-button ${theme}`}>
+                        <img style={{ paddingRight: '5px', margin: '-5px', width: '1.55em' }} src="/img/icon/Google.png" alt="Google" />
+                        <span>       로그인</span>
+                    </Link>
                     <br /><br />
                     <p style={{ color: theme === 'light' ? '#dca3e7' : '#ffffff' }}>혹시 계정이 없으신가요?</p>
                     <div>
@@ -80,6 +144,7 @@ export default function Login() {
                     </div>
                     <br />
                     <div className="container">
+                        <hr />
                         <button onClick={toggleTheme} className="fill">테마변경</button>
                     </div>
                 </div>

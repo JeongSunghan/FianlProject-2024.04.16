@@ -7,6 +7,9 @@ import '../css/theme.css';
 import { initializeApp, } from 'firebase/app';
 import { GoogleAuthProvider, getAuth, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
 
+// alert 변경
+import Swal from "sweetalert2";
+
 export default function Register() {
     // 테마설정
     const [theme, setTheme] = useState('light'); // 초기 테마를 설정
@@ -39,7 +42,24 @@ export default function Register() {
             const auth = getAuth();
             const provider = new GoogleAuthProvider();
             await signInWithPopup(auth, provider);
-            alert('구글 로그인 성공!! 환영합니다!!');
+            Swal.fire({
+                icon: 'success',
+                title: "구글 로그인에 성공했습니다.",
+                showClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeInUp
+                    animate__faster
+                  `
+                },
+                hideClass: {
+                    popup: `
+                    animate__animated
+                    animate__fadeOutDown
+                    animate__faster
+                  `
+                }
+            });
             console.log("구글 로그인 성공!");
             navigate('/');
         } catch (error) {
@@ -59,27 +79,47 @@ export default function Register() {
         // 정규식으로 이메일 형식 확인
         const emailRegex = /^[a-zA-Z0-9._%+-]+@(?:[a-zA-Z0-9-]+\.)+(com|net)$/;
         if (!emailRegex.test(userInfo.email)) {
-            alert("올바른 이메일 형식이 아닙니다.");
+            Swal.fire({
+                text: "올바른 이메일 형식이 아닙니다.",
+                icon: "warning"
+            });
             return;
         }
         // 비밀번호 확인 - 일치여부, 형식
         if (userInfo.password !== userInfo.confirmPassword) {
-            alert("비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+            Swal.fire({
+                title: "비밀번호가 일치하지 않습니다.",
+                text: "다시 입력해주세요",
+                icon: "warning"
+            });
             return;
         }
         if (userInfo.password.length < 6) { // 파이어베이스 비밀번호 길이 제한
-            alert("비밀번호는 6자리 이상이어야 합니다.");
+            Swal.fire({
+                text: "비밀번호는 6자리 이상이어야 합니다.",
+                icon: "warning"
+            });
             return;
         }
+
         if (!/[0-9]/.test(userInfo.password) || !/[!@#$%^&*?]/.test(userInfo.password)) { // 정규식으로 비밀번호 확인
-            alert("비밀번호는 숫자와 특수문자(!@#$%^&*?)를 포함해야 합니다.");
+            Swal.fire({
+                width: '50%',
+                title: '유효성 검사 경고',
+                html: `비밀번호는 숫자와 특수문자(!@#$%^&amp;*?)를 포함해야합니다.`,
+                icon: 'warning'
+            });
             return;
         }
 
         await createUserWithEmailAndPassword(auth, userInfo.email, userInfo.password)
             .then(() => {
                 console.log("회원가입 성공");
-                alert('회원가입 성공. 환영합니다.');
+                Swal.fire({
+                    title: "가입에 성공하셨습니다!",
+                    text: "OK 버튼을 눌러주세요!",
+                    icon: "success"
+                });
                 axios.get("/user/register", {
                     params: {
                         email: userInfo.email,
@@ -96,12 +136,19 @@ export default function Register() {
                 // 이미 사용 중인 이메일일 경우 또는 다른 오류가 발생한 경우
                 console.error("회원가입 에러:", error.message);
                 if (error.code === "auth/email-already-in-use") {
-                    alert("이미 사용 중인 이메일입니다. 다른 이메일을 입력해주세요.");
+                    Swal.fire({
+                        title: '이미 사용중인 이메일입니다.',
+                        text: "다른 이메일을 입력해주세요.",
+                        icon: "warning"
+                    });
                 } else {
-                    alert("회원가입 중 에러가 발생했습니다. 다시 시도해주세요.");
+                    Swal.fire({
+                        icon: "error",
+                        title: "가입에 실패하셨습니다.",
+                        text: "회원가입 도중 오류 발생",
+                    });
                 }
             });
-
     }
 
     return (
@@ -124,11 +171,20 @@ export default function Register() {
                     <input type="password" name='confirmPassword' placeholder="비밀번호 확인" className="commonInputStyle" onChange={handleChange} />
                     <br /><br />
                     <Link className={`custom-button ${theme}`} onClick={handleSubmit}>가입하기</Link>
-
+                    {/* 다음줄 넘기는 br */}
+                    <br />
+                    <p style={{
+                        marginTop: '10px', marginBottom: '10px',
+                        color: theme === 'light' ? '#dca3e7' : '#ffffff'
+                    }}>혹은</p>
+                    <Link to="#" onClick={loginWithGoogle} className={`custom-button ${theme}`}>
+                        <img style={{ paddingRight: '10px', margin: '-6px', width: '35px' }} src="/img/icon/Google.png" alt="Google" />
+                        <span>로그인</span>
+                    </Link>
+                    <p style={{ marginBottom: '1px' }}>&nbsp;</p>
                     <hr style={{ border: '1px solid rgba(255, 255, 255, 0.4)' }} />
                     <p style={{ color: theme === 'light' ? '#dca3e7' : '#ffffff' }}>계정이 이미 있으신가요?</p>
-                    <Link onClick={loginWithGoogle} className={`custom-button ${theme}`}>Google <br /> 로그인</Link>
-                    <Link to="/login" className={`custom-button ${theme}`}>FlowNary <br />로그인</Link>
+                    <Link to="/login" className={`custom-button ${theme}`}>FlowNary<br />로그인</Link>
                     <br />
                     <div className="container">
                         <button onClick={toggleTheme} className="fill">테마변경</button>
