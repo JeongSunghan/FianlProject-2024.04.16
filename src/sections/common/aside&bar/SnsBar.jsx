@@ -58,10 +58,18 @@ export default function SnsBar() {
     return () => unsubscribe();
   }, [auth]);
 
-  // firebase 로그아웃
+  // firebase 로그아웃(2024/04/30 - 정성한 수정)
   const handleLogout = () => {
-    signOut(auth).then(() => { console.log('로그아웃 성공'); })
-      .catch((error) => { console.error('로그아웃 오류:', error); });
+    signOut(auth).then(() => {
+      console.log('로그아웃 성공');      
+      navigate('/login');
+      localStorage.removeItem("uid");
+      localStorage.removeItem("email");
+      localStorage.removeItem("profile");
+    })
+      .catch((error) => {
+        console.error('로그아웃 오류:', error);        
+      });
   };
 
   return (
