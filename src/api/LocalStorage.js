@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
+//로컬 스토리지 안에 들어온다ㅓ
 export function SetWithExpiry(key, value, ttl) {
     const now = new Date();
 
@@ -13,6 +14,7 @@ export function SetWithExpiry(key, value, ttl) {
     localStorage.setItem(key, JSON.stringify(item));
 }
 
+// 받아올 때 써야함
 export function GetWithExpiry(key) {
     const itemStr = localStorage.getItem(key);
     const navigate = useNavigate();
@@ -35,4 +37,5 @@ export function GetWithExpiry(key) {
     }
 
     return item.value;
+    // 반환할 때 uid 값으로
 }

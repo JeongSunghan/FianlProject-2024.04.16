@@ -72,7 +72,7 @@ export default function Chat() {
         <TextField
           sx={{
             marginBottom: '1.5em',
-            width: { xs: '60%', sm: '80%', md: '90%', lg: '95%', xl: '100%', },
+            width: { xs: '60%', sm: '80%', md: '85%', lg: '88%', xl: '90%', },
           }}
           fullWidth
           placeholder="메시지를 입력하세요..."

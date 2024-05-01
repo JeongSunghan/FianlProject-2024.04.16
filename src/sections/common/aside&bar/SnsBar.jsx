@@ -11,6 +11,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { signOut, getAuth, onAuthStateChanged } from 'firebase/auth';
 import { initializeApp } from "firebase/app";
 
+// 로컬스토리지 임포트
+import { GetWithExpiry } from '../../../api/LocalStorage.js';
+
 // 스타일 부분 연결
 import '../notice.css';
 import { Search, SearchIconWrapper, StyledInputBase } from '../snsbarStyle.jsx';
@@ -25,7 +28,8 @@ const firebaseConfig = {
 
 export default function SnsBar() {
 
-  const { userData } = useUser();
+  // const { userData } = useUser();
+  const email = GetWithExpiry("email");
 
   // 반응형 로고 변환
   const logoImageLarge = '/img/LightLogo.png';
@@ -61,14 +65,14 @@ export default function SnsBar() {
   // firebase 로그아웃(2024/04/30 - 정성한 수정)
   const handleLogout = () => {
     signOut(auth).then(() => {
-      console.log('로그아웃 성공');      
+      console.log('로그아웃 성공');
       navigate('/login');
       localStorage.removeItem("uid");
       localStorage.removeItem("email");
       localStorage.removeItem("profile");
     })
       .catch((error) => {
-        console.error('로그아웃 오류:', error);        
+        console.error('로그아웃 오류:', error);
       });
   };
 
@@ -132,14 +136,14 @@ export default function SnsBar() {
               </Search>
             </Grid>
 
-            <Grid item xs={3} lg={2.1}>
+            <Grid item xs={2} lg={1.1}>
             </Grid>
 
             {/* 로그아웃 또는 로그인 버튼 부분*/}
-            <Grid item xs={1.5} lg={1} sx={{ placeItems: 'center', justifyContent: 'flex-end', display: 'flex' }}>
-              {userData && userData.email ? (
+            <Grid item xs={2.5} lg={2} sx={{ placeItems: 'center', justifyContent: 'flex-end', display: 'flex' }}>
+              {email ? (
                 <>
-                  <span>{userData.email}</span>
+                  <span>{email.split('@')[0]}</span>
                   <Button style={{ color: 'white', opacity: 0.7 }} onClick={handleLogout}>로그아웃</Button>
                 </>
               ) : (
