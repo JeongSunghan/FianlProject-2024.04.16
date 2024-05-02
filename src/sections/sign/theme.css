@@ -88,7 +88,6 @@
 /* 다크테마 */
 .dark .custom-button {
     --color: #ffffff;
-    /* color:rgba(39, 15, 58, 0.5) */
     --hover: rgb(46, 55, 76);
     color: #ffffff;
     border-color: #ffffff;
@@ -100,8 +99,8 @@
 
 /* 라이트테마 */
 .light .custom-button {
-    --color: #dca3e7;    
-    --hover: rgb(36, 6, 63);    
+    --color: #dca3e7;
+    --hover: rgb(28, 0, 53);
     color: #dca3e7;
     border-color: #dca3e7;
 }

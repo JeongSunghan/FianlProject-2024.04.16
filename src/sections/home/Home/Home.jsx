@@ -14,6 +14,7 @@ import config from "../../common/chatbot/config";
 import MessageParser from "../../common/chatbot/MessageParser";
 import ActionProvider from "../../common/chatbot/ActionProvider";
 import Chatbot from "react-chatbot-kit";
+import '../../common/chatbot/chatbot.css';
 
 
 export default function Home() {
@@ -66,6 +67,8 @@ export default function Home() {
                         config={config}
                         messageParser={MessageParser}
                         actionProvider={ActionProvider}
+                        placeholderText="여기에 내용을 입력해주세요."
+                        headerText='환영합니다. FlowNary 입니다!'
                     />
                 </DialogContent>
             </Dialog>
