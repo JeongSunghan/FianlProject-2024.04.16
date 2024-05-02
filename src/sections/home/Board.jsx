@@ -76,7 +76,7 @@ export default function Board() {
     setBid(null);
   };
   const [dataList, setDataList] = useState([]);
-  const [replyList, setRelpyList] = useState([]);
+  const [replyList, setReplyList] = useState([]);
 
   useEffect(() => {
     axios.get('http://localhost:8090/board/list')
@@ -104,8 +104,8 @@ export default function Board() {
           modTime: item.modTime,
           likeCount: item.likeCount,
           nickname: item.nickname,
-        }));
-        setRelpyList(formData);
+        }));        
+        setReplyList(formData);
       })
       .catch(err => {
         console.log(err);

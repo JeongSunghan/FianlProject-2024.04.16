@@ -242,7 +242,7 @@ export default function SettingDetail() {
   };
 
 
-  
+
 
   const chectPwd = async e => {
     e.preventDefault();
@@ -502,8 +502,8 @@ export default function SettingDetail() {
             {/* 닉네임 입력 */}
             <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
               <Grid item xs={8} md={10} lg={10.8}>
-                <LightTooltip 
-                title="별명을 입력하세요." arrow placement="bottom" >
+                <LightTooltip
+                  title="별명을 입력하세요." arrow placement="bottom" >
                   <TextField
                     required
                     fullWidth
@@ -516,7 +516,7 @@ export default function SettingDetail() {
                 </LightTooltip>
               </Grid>
               <Grid item xs={4} md={2} lg={1.2}>
-                <Button onClick={checkNickname} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)', width:'10%' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
+                <Button onClick={checkNickname} variant="contained" sx={{ backgroundColor: 'rgb(54, 11, 92)', width: '10%' }} style={{ margin: '20px 0px 0px 5px' }} >확인</Button>
               </Grid>
             </Grid>
 
@@ -534,7 +534,7 @@ export default function SettingDetail() {
 
             {/* 전화번호 입력 */}
             <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-            <Grid item xs={8} md={10} lg={10.8}>
+              <Grid item xs={8} md={10} lg={10.8}>
                 <LightTooltip title="' - ' 없이 숫자만 입력하세요." placement='bottom' >
                   <TextField
                     required
@@ -581,7 +581,7 @@ export default function SettingDetail() {
 
             {/* 비밀번호 확인 */}
             <Grid container style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-            <Grid item xs={8} md={10} lg={10.8}>
+              <Grid item xs={8} md={10} lg={10.8}>
                 <TextField
                   fullWidth
                   label="비밀번호 확인"
@@ -627,7 +627,7 @@ export default function SettingDetail() {
             {/* 하단 버튼 영역 */}
             <Grid container sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
               <Grid item xs={8} lg={6} sx={{ display: 'flex' }}>
-                <Button 
+                <Button
                   variant="contained"
                   onClick={submitProfile}
                   style={{ margin: '1em', width: '20%', backgroundColor: 'rgb(54, 11, 92)' }}>
@@ -642,23 +642,23 @@ export default function SettingDetail() {
                 </Button>
               </Grid>
 
-              {status == 0 ? 
-              <Grid item xs={4} lg={6} >
-                <Button
-                  variant="contained"
-                  onClick={deactiveAccount}
-                  style={{ margin: '1em', width: '15%', backgroundColor: 'red' }}>
-                  계정<br />잠그기
-                </Button>
+              {status == 0 ?
+                <Grid item xs={4} lg={6} >
+                  <Button
+                    variant="contained"
+                    onClick={deactiveAccount}
+                    style={{ margin: '1em', width: '15%', backgroundColor: 'red' }}>
+                    계정<br />잠그기
+                  </Button>
                 </Grid>
                 :
                 <Grid item xs={4} lg={6} >
-                <Button
-                  variant="contained"
-                  onClick={deactiveAccount}
-                  style={{ margin: '1em', width: '15%', backgroundColor: 'Blue' }}>
-                  활성화
-                </Button>
+                  <Button
+                    variant="contained"
+                    onClick={deactiveAccount}
+                    style={{ margin: '1em', width: '15%', backgroundColor: 'Blue' }}>
+                    활성화
+                  </Button>
                 </Grid>}
             </Grid>
 
