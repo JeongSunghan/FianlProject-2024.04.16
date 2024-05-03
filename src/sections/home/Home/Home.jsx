@@ -46,9 +46,9 @@ export default function Home() {
                 <Stack direction="column" spacing={2} sx={{ flex: isLargeScreen ? '0.4' : '0', boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)' }}>
                     <RecommendList />
                 </Stack>
-            </Stack>
+            </Stack>            
 
-            <Button variant="contained" onClick={toggleChatbot} 
+            <Button variant="contained" onClick={toggleChatbot}             
             style={{
                  position: 'fixed', bottom: 20, right: 20, zIndex: 1000, 
                  maxWidth:'3%'
