@@ -97,7 +97,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         // 1초 후에 두 번째 메시지를 보냅니다.
         setTimeout(() => {
             const secondMessage = createChatBotMessage(
-                `옆 칸을 보시면 글쓰기가 보이시나요? ${<CreateIcon />} 글쓰기를 클릭하시면 당신의 글을 작성할 수 있습니다.`
+                `옆 칸을 보시면 글쓰기가 보이시나요? 글쓰기 혹은 아이콘을 클릭하시면 당신의 글을 작성할 수 있습니다.`
             );
             setState(prev => ({ ...prev, messages: [...prev.messages, secondMessage] }));
         }, 1000); // 1000 밀리초 = 1초

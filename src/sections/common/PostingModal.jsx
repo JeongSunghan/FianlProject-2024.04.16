@@ -1,6 +1,6 @@
 // 기본
 import React, { useEffect, useState } from "react";
-import { Card, Stack, Button, Grid, Modal, Typography, Box} from "@mui/material";
+import { Card, Stack, Button, Grid, Modal, Typography, Box } from "@mui/material";
 
 // 아코디언
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
@@ -14,7 +14,8 @@ import CreateIcon from '@mui/icons-material/Create';
 // css 연결
 import './posting.css';
 import { AntSwitch } from './postingStyle.jsx';
-import { FindImage, UploadImage, UploadImage2 } from "../../api/image.js";
+import { UploadImage } from "../../api/image.js";
+// import { FindImage, UploadImage2 } from "../../api/image.js";
 import { GetWithExpiry } from "../../api/LocalStorage.js";
 
 import axios from "axios";
@@ -32,24 +33,22 @@ export default function Posting() {
     const [nickname, setNickname] = useState('');
 
     useEffect(() => {
-        if (uid != null)
-        {
+        if (uid !== null) {
             axios.get('http://localhost:8090/user/getUser', {
                 params: {
                     uid: uid,
                 }
             }).then(res => {
-                if (res.data.nickname != null && res.data.nickname != '')
-                {
+                if (res.data.nickname !== null && res.data.nickname !== '') {
                     setNickname(res.data.nickname);
                 }
-                else
-                {
+                else {
                     setNickname(res.data.email);
                 }
             }).catch(error => console.log(error));
         }
-    }, []);
+    }, [uid]); // 종속성 배열에서 uid 제거
+    
 
     // 창열고 닫기
     const [open, setOpen] = useState(false);
@@ -66,15 +65,14 @@ export default function Posting() {
     // 이미지 파일 불러오기
     const [images, setImages] = useState([]);
     const [previewUrls, setPreviewUrls] = useState([]);
-    
+
     // 글 내용
     const [text, setText] = useState('');
     const [title, setTitle] = useState('');
-    
+
     // 파일이 선택되었을 때 호출되는 함수
     const handleFileChange = async (event) => {
-        if (event.target.files.length === 0)
-        {
+        if (event.target.files.length === 0) {
             return;
         }
 
@@ -86,11 +84,11 @@ export default function Posting() {
 
         const selectedFiles = Array.from(event.target.files);
         setImages(images.concat(selectedFiles)); // 기존 이미지 배열에 추가
-        
+
         const newPreviewUrls = selectedFiles.map((file) => URL.createObjectURL(file));
         setPreviewUrls(previewUrls.concat(newPreviewUrls)); // 미리보기 URL 배열에 추가
     };
-    
+
     const handleFormSubmit = async (event) => {
         event.preventDefault();
         handleClose();
@@ -111,12 +109,12 @@ export default function Posting() {
             shareUrl: 'http://localhost:3000/',
             hashTag: null
         })
-        
+
         axios({
             method: "POST",
             url: 'http://localhost:8090/board/insert',
             data: sendData,
-            headers: {'Content-Type': 'application/json'}
+            headers: { 'Content-Type': 'application/json' }
         }).catch(error => console.log(error));
 
         setImages([]);
@@ -158,97 +156,97 @@ export default function Posting() {
                 <Box className='modalStyle'>
                     {/* 모달의 상단에 있는 헤더 부분 */}
                     <form onSubmit={handleFormSubmit}>
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
-                        <Button color="primary" onClick={handleClose}>창 닫기</Button>
-                        <Typography variant="h6" component="h2" fontWeight="bold">새 게시물 만들기</Typography>
-                        <Button type="submit" color="primary">작성</Button>
-                    </Stack>
+                        <Stack direction="row" justifyContent="space-between" alignItems="center" marginBottom={2}>
+                            <Button color="primary" onClick={handleClose}>창 닫기</Button>
+                            <Typography variant="h6" component="h2" fontWeight="bold">새 게시물 만들기</Typography>
+                            <Button type="submit" color="primary">작성</Button>
+                        </Stack>
 
-                    {/* 구분선 */}
-                    <hr style={{ opacity: '0.5' }} />
+                        {/* 구분선 */}
+                        <hr style={{ opacity: '0.5' }} />
 
-                    {/* 이미지 업로드 및 미리보기 */}
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <Button variant="outlined" component="label">
-                                이미지 추가하기
-                                <input
-                                    type="file"
-                                    multiple
-                                    hidden
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
-                            </Button>
+                        {/* 이미지 업로드 및 미리보기 */}
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <Button variant="outlined" component="label">
+                                    이미지 추가하기
+                                    <input
+                                        type="file"
+                                        multiple
+                                        hidden
+                                        accept="image/*"
+                                        onChange={handleFileChange}
+                                    />
+                                </Button>
+                            </Grid>
+
+                            {/* 이미지 미리보기 */}
+                            {previewUrls.map((url, index) => (
+                                <Grid item key={index} xs={4} sm={2}>
+                                    <Card>
+                                        <img src={url} alt={`Preview ${index}`} style={{ width: '15.5vh', height: '15vh', objectFit: 'cover' }} />
+                                        <Button style={{ justifyContent: 'center' }}
+                                            onClick={() => handleRemoveImage(index)}>제거</Button>
+                                    </Card>
+                                </Grid>
+                            ))}
                         </Grid>
 
-                        {/* 이미지 미리보기 */}
-                        {previewUrls.map((url, index) => (
-                            <Grid item key={index} xs={4} sm={2}>
-                                <Card>
-                                    <img src={url} alt={`Preview ${index}`} style={{ width: '15.5vh', height: '15vh', objectFit: 'cover' }} />
-                                    <Button style={{ justifyContent: 'center' }}
-                                        onClick={() => handleRemoveImage(index)}>제거</Button>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                        {/* 제목 작성 부분 */}
+                        <Grid item xs={12} sm={6}>
+                            <InputEmoji
+                                value={title}
+                                onChange={setTitle}
+                                cleanOnEnter
+                                onEnter={handleOnEnter}
+                                placeholder="제목을 입력하세요..."
+                                shouldReturn
+                                fontSize={15}
+                                language='kr'
+                            />
+                        </Grid>
 
-                    {/* 제목 작성 부분 */}
-                    <Grid item xs={12} sm={6}>
-                        <InputEmoji
-                            value={title}
-                            onChange={setTitle}
-                            cleanOnEnter
-                            onEnter={handleOnEnter}
-                            placeholder="제목을 입력하세요..."
-                            shouldReturn
-                            fontSize={15}
-                            language='kr'
-                        />
-                    </Grid>
+                        {/* 게시글 작성 부분 */}
+                        <Grid item xs={12} sm={6}>
+                            <InputEmoji
+                                value={text}
+                                onChange={setText}
+                                // cleanOnEnter
+                                // onEnter={handleOnEnter}
+                                placeholder="문구를 입력하세요..."
+                                shouldReturn
+                                fontSize={15}
+                                language='kr'
+                            />
+                        </Grid>
 
-                    {/* 게시글 작성 부분 */}
-                    <Grid item xs={12} sm={6}>
-                        <InputEmoji
-                            value={text}
-                            onChange={setText}
-                            // cleanOnEnter
-                            // onEnter={handleOnEnter}
-                            placeholder="문구를 입력하세요..."
-                            shouldReturn
-                            fontSize={15}
-                            language='kr'
-                        />
-                    </Grid>
+                        {/* 위치 */}
+                        <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                            <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
+                                <Typography>위치 추가</Typography>
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <Typography>
+                                    카카오 맵 API 지도 생성
+                                </Typography>
+                            </AccordionDetails>
+                        </Accordion>
 
-                    {/* 위치 */}
-                    <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-                        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-                            <Typography>위치 추가</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails>
-                            <Typography>
-                                카카오 맵 API 지도 생성
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    
 
-                    {/* 게시물 공개 비공개 */}
-                    <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-                        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-                            <Typography>게시글 공개 혹은 비공개 </Typography>
-                        </AccordionSummary>
-                        <AccordionDetails sx={{ display: 'flex' }}>
-                            <Typography sx={{ marginRight: '1em' }}>비공개</Typography>
-                            <AntSwitch sx={{ marginTop: '0.25em' }} defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
-                            <Typography sx={{ marginLeft: '1em' }}>공개</Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                </form>
+                        {/* 게시물 공개 비공개 */}
+                        <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+                            <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
+                                <Typography>게시글 공개 혹은 비공개 </Typography>
+                            </AccordionSummary>
+                            <AccordionDetails sx={{ display: 'flex' }}>
+                                <Typography sx={{ marginRight: '1em' }}>비공개</Typography>
+                                <AntSwitch sx={{ marginTop: '0.25em' }} defaultChecked inputProps={{ 'aria-label': 'ant design' }} />
+                                <Typography sx={{ marginLeft: '1em' }}>공개</Typography>
+                            </AccordionDetails>
+                        </Accordion>
+                    </form>
                 </Box>
-                
+
             </Modal >
         </>
     );

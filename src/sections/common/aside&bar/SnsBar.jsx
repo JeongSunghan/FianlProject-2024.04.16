@@ -27,7 +27,7 @@ const firebaseConfig = {
 
 export default function SnsBar() {
 
-  const uid = parseInt(GetWithExpiry("uid"));
+  // const uid = parseInt(GetWithExpiry("uid"));
   const email = GetWithExpiry("email");
   const location = useLocation();
 
@@ -45,13 +45,13 @@ export default function SnsBar() {
   const navigate = useNavigate();
   const HomeButton = () => { navigate('/'); };
   const handleSearch = () => {
-    if (searchtext == '' || searchtext == null)
+    if (searchtext === '' || searchtext === null)
     {
       alert('검색어를 입력하십시오');
     }
     else {
       sessionStorage.setItem("search", searchtext);
-      if (location.pathname != 'search')
+      if (location.pathname !== 'search')
       {
         navigate('/search');
       }
@@ -70,6 +70,7 @@ export default function SnsBar() {
   const auth = getAuth();
 
   // firebase 로그인 구현
+   // eslint-disable-next-line 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
