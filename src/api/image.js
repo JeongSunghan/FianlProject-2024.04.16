@@ -17,14 +17,14 @@ export async function UploadImage(image) {
 
     try {
         const response = await fetch(
-            `${process.env.REACT_APP_CLOUDINARY_URL}`,
+            `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
             {
                 method: "POST",
                 body: data,
             }
         );
         const res = await response.json();
-        return res;
+        return res.public_id;
     } catch (error) {
         console.log(error);
         return null;

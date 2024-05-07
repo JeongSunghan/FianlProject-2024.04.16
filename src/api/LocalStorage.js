@@ -24,7 +24,7 @@ export function GetWithExpiry(key) {
     const item = JSON.parse(itemStr);
     const now = new Date();
 
-    if (now.getTime() > parseInt(item.expiry)) {
+    if (now.getTime > item.expiry) {
         localStorage.removeItem(key)
         if (key == 'uid' || key == 'email')
         {
