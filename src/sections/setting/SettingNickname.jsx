@@ -1,9 +1,6 @@
 // 기본
 import React, { useEffect, useState } from "react";
-import {
-  Box, Button, Card, TextField, InputAdornment, Typography, InputLabel, MenuItem, FormControl, Select, Avatar,
-  IconButton, Grid, Stack
-} from "@mui/material";
+import { Button, TextField, Grid } from "@mui/material";
 import axios from "axios";
 
 // css 연결
@@ -25,7 +22,6 @@ const LightTooltip = styled(({ className, ...props }) => (
 
 export default function SettingNickname(props) {
   const [nickname, setNickname] = useState('');
-  const [checkingNickname, setCheckingNickname] = useState(props.checkingNickname);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,7 +31,7 @@ export default function SettingNickname(props) {
       }
     }, 500);
     return () => clearInterval(interval);
-  }, [props.nickname]);
+  }, [props.nickname, nickname]);
 
   const checkNickname = () => {
     axios.get('http://localhost:8090/user/nickname',
@@ -57,23 +53,20 @@ export default function SettingNickname(props) {
             text: "닉네임이 중복됩니다.",
             icon: "warning"
           });
-          props.changeChenckingNickname(0);
+          props.changeCheckingNickname(0);
           return;
         }
         Swal.fire({
           icon: "success",
           text: "닉네임 사용 가능합니다!",
         });
-        props.onNicknameChange(nickname);
-        props.changeChenckingNickname(1);
+        props.changeCheckingNickname(1);
         return;
       }).catch(error => {
         console.error('Error fetching nicknames:', error);
       });
   }
-  const handleNickname = (e) => {
-    setNickname(e.target.value);
-  };
+  const handleNickname = (e) => { setNickname(e.target.value); props.changeCheckingNickname(0); props.onNicknameChange(e); };
 
   return (
     <>
