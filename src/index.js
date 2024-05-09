@@ -15,6 +15,7 @@ import Profile from './sections/profile/Profile/Profile';
 import Setting from './sections/setting/Setting/Setting';
 import Search from './sections/search/Search/Search';
 
+
 // Create browser router
 const router = createBrowserRouter([
   {
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
       { path: 'profile/mypage', element: <Mypage /> },
       { path: 'profile', element: <Profile /> },
       { path: 'setting', element: <Setting /> },
-      { path: 'search', element: <Search /> },
+      { path: 'search', element: <Search /> },          
     ]
   }
 ]);
